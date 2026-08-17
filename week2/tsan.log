@@ -1,0 +1,10 @@
+[ RUN      ] counting_under_contention
+[       OK ] counting_under_contention (capacity=64, producers=8, tasks=80000)
+[ RUN      ] tiny_ring_wraparound
+[       OK ] tiny_ring_wraparound (capacity=8, producers=4, tasks=80000)
+[ RUN      ] full_queue_boundary
+[       OK ] full_queue_boundary
+[ RUN      ] stalled_producer_fifo
+[       OK ] stalled_producer_fifo
+
+All MPSC functional tests passed.

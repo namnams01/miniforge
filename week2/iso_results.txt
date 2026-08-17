@@ -1,0 +1,101 @@
+===== cal (negative control: expect sys ~0, switches ~0) =====
+--- calibration (single-threaded, no pool) ---
+        g       reps      total_ns        ns/task       ns per unit g
+       10     666666      10261000          15.39              1.5392
+      100     166666      19549000         117.29              1.1729
+     1000      19607      20288000        1034.73              1.0347
+    10000       1996      17999000        9017.54              0.9018
+
+        0.07 real         0.06 user         0.00 sys
+             1310720  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 276  page reclaims
+                   1  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                   2  involuntary context switches
+           214862660  instructions retired
+           216787252  cycles elapsed
+             1114424  peak memory footprint
+===== A (expect sys >> user, switches ~ tasks) =====
+--- A. dispatch ceiling : T=500000 tasks, g=10 ---
+    task << dispatch: measures the LOCK, not the cores
+    region: submit->complete only; create/warmup/teardown unclocked; median of 5 reps
+        W     tasks/s        speedup   ns/task   active     top   sleeps/T   jit%   ok
+        1   2.890e+07           1.00x      34.6        1  100.0%      0.000    2.9   yes
+        2   1.195e+07           0.41x      83.6        2   53.5%      0.000    1.0   yes
+        4   7.455e+06           0.26x     134.1        4   25.7%      0.017    4.2   yes
+        8   1.006e+06           0.03x     994.1        8   13.0%      0.119    8.1   yes
+       10   4.023e+05           0.01x    2485.7       10   10.5%      0.277    4.0   yes
+       11   3.107e+05           0.01x    3218.1       11    9.4%      0.354   21.2   yes
+       16   2.014e+05           0.01x    4965.0       16    6.5%      0.543   47.7   yes
+       20   1.937e+05           0.01x    5162.7       20    5.2%      0.569    2.0   yes
+       30   1.914e+05           0.01x    5225.7       30    3.5%      0.558    5.5   yes
+       50   1.840e+05           0.01x    5434.3       50    2.1%      0.574    1.1   yes
+    task distribution @ W=50 (tasks per worker, last rep):
+    9794 9942 9934 10078 10120 9918 9723 10041 10155 10359 
+    10380 9855 9925 10226 9946 9941 9853 10095 9810 9869 
+    10360 9975 9952 9963 10095 9983 9800 9770 9953 9752 
+    10182 10071 10204 10083 9917 9910 10029 9863 9909 9795 
+    10157 9731 9935 10238 10355 9773 9984 10027 10262 10008 
+    
+
+       68.24 real        22.97 user       333.57 sys
+            77365248  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5136  page reclaims
+                   1  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+            30140368  involuntary context switches
+        505489487109  instructions retired
+       1196976736174  cycles elapsed
+            75366760  peak memory footprint
+===== B (expect user >> sys, modest switches) =====
+--- B. parallel efficiency : T=4000 tasks, g=100000 ---
+    task >> dispatch: measures the CORES, not the lock
+    region: submit->complete only; create/warmup/teardown unclocked; median of 5 reps
+        W     tasks/s        speedup   ns/task   active     top   sleeps/T   jit%   ok
+        1   1.259e+04           1.00x   79400.2        1  100.0%      0.000    3.8   yes
+        2   2.270e+04           1.80x   44043.8        2   50.1%      0.001    0.7   yes
+        4   4.507e+04           3.58x   22187.5        4   25.3%      0.001    2.6   yes
+        8   8.985e+04           7.13x   11130.0        8   12.6%      0.002    0.1   yes
+       10   1.108e+05           8.80x    9026.7       10   10.1%      0.003    3.2   yes
+       11   1.172e+05           9.30x    8534.5       11    9.5%      0.003    5.4   yes
+       16   1.132e+05           8.99x    8832.3       16    9.9%      0.004    6.4   yes
+       20   1.184e+05           9.40x    8445.0       20    9.4%      0.004   10.2   yes
+       30   1.290e+05          10.24x    7750.7       28    8.5%      0.013   10.6   yes
+       50   1.254e+05           9.95x    7976.3       27    8.8%      0.013    9.0   yes
+
+        4.58 real        20.50 user         0.37 sys
+             4046848  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 663  page reclaims
+                  16  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   1  voluntary context switches
+              182921  involuntary context switches
+         67993748007  instructions retired
+         78506866034  cycles elapsed
+             3572072  peak memory footprint
