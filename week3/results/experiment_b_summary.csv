@@ -1,0 +1,4 @@
+allocator,first_failure_op,successful_allocations,failed_allocations,frees,peak_live_requested,peak_retained,final_live_requested,final_retained,final_internal_waste,final_unreclaimed_dead
+fixed_pool,0,750,0,250,128256,128256,128000,128000,0,0
+malloc,0,750,0,250,128256,132264,128000,132000,4000,0
+bump,0,750,0,250,128256,192000,128000,192000,0,64000

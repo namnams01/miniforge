@@ -1,0 +1,21 @@
+{
+  "experiment_a": {
+    "arena_size_bytes": 16384,
+    "operations_per_trace": 1000,
+    "seeds": 30,
+    "seed_values": "1..30",
+    "request_classes": "n=1..12",
+    "class_probability": "P(n)=1/[(H_13-1)(n+1)]",
+    "request_within_class": "UniformInteger(2^(n-1)+1, 2^n)",
+    "lifetime_rule": "every fourth operation frees the oldest logical allocation",
+    "registered_prediction": "request class 12 is modal first fragmentation failure"
+  },
+  "experiment_b": {
+    "arena_size_bytes": 262144,
+    "block_size_bytes": 256,
+    "operations": 1000,
+    "benchmark_repetitions": 1000,
+    "directional_throughput_prediction": "bump > fixed_pool > malloc",
+    "note": "malloc uses the system heap; fixed and bump use the configured arena"
+  }
+}
